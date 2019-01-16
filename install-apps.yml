@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+  - name: Install Ubuntu apps (apparantly there is a snap module coming in Ansible 2.8)
+    command: snap install {{ item }} 
+    with_items:
+      - slack --classic
+      - spotify
+      - rocketchat-desktop
+      - chromium
+      - firefox
+      - atom --classic
+      - tmux --classic
+      - evernote-web-client
+      - docker
+    when: ansible_distribution == 'Ubuntu'
+
+  - name: Install osx apps with brew cask
+    homebrew_cask: name={{ item }}
+    with_items:
+      - slack 
+      - spotify
+      - rocketchat-desktop
+      - chromium
+      - firefox
+      - atom 
+      - tmux 
+      - evernote-web-client
+      - docker
+    when: ansible_distribution == 'MacOSX'
